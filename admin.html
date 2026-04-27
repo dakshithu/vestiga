@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vestiga Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-wrap{padding-top:88px;min-height:100vh;}
+    .admin-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 16px;}
+    .admin-card{background:var(--white);border:1px solid rgba(44,36,22,0.12);border-radius:16px;padding:16px;}
+    .admin-muted{font-size:13px;color:var(--ash);line-height:1.6;}
+    .admin-input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid rgba(44,36,22,0.14);background:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--stone);outline:none;}
+    .admin-btn{padding:10px 18px;border-radius:100px;border:none;background:var(--stone);color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;}
+    .admin-btn.secondary{background:transparent;border:1px solid rgba(44,36,22,0.18);color:var(--stone);}
+    .admin-btn:disabled{opacity:.55;cursor:not-allowed;}
+  </style>
+</head>
+<body>
+  <nav id="main-nav" class="solid">
+    <div class="nav-logo">
+      <img src="" id="nav-logo-img" alt="Vestiga" onerror="this.style.display='none'"/>
+      <span class="sr-only">Vestiga</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Back to App</a>
+    </div>
+  </nav>
+
+  <main class="admin-wrap">
+    <section>
+      <div class="section-tag">Moderation</div>
+      <h1 class="section-title" style="margin-bottom:1rem;">Admin Dashboard</h1>
+      <div class="admin-card" style="margin-bottom:16px;">
+        <div class="admin-muted" style="margin-bottom:12px;">This page is password-gated for demos. For real security, protect this route at the host (Netlify/Vercel) or move moderation server-side.</div>
+        <div class="admin-bar">
+          <input class="admin-input" id="admin-email" type="email" placeholder="Admin email" style="max-width:260px;" />
+          <input class="admin-input" id="admin-pass" type="password" placeholder="Password" style="max-width:220px;" />
+          <button class="admin-btn" id="admin-signin">Sign In</button>
+          <button class="admin-btn secondary" id="admin-signout" style="display:none;">Sign Out</button>
+          <span class="admin-muted" id="admin-status" style="margin-left:auto;"></span>
+        </div>
+        <div class="admin-bar">
+          <button class="admin-btn" id="btn-load">Load Pending Sites</button>
+          <button class="admin-btn secondary" id="btn-load-approved">Load Approved Sites</button>
+          <span class="admin-muted" id="pending-count"></span>
+        </div>
+        <div class="admin-muted" id="rls-hint" style="display:none;margin-top:10px;"></div>
+      </div>
+
+      <div class="admin-card" style="margin-bottom:16px;">
+        <div class="section-tag" style="margin-bottom:8px;">Bulk Import</div>
+        <div class="admin-muted" style="margin-bottom:12px;">Upload a CSV to insert many heritage sites at once. Images should be URLs in <code>image_url</code> (or upload per-site via the app).</div>
+        <div class="admin-bar">
+          <input class="admin-input" id="csv-file" type="file" accept=".csv,text/csv" style="max-width:340px;" />
+          <select class="admin-input" id="csv-default-status" style="max-width:220px;">
+            <option value="approved" selected>Default: approved</option>
+            <option value="pending">Default: pending</option>
+          </select>
+          <button class="admin-btn secondary" id="btn-csv-template">Download CSV Template</button>
+          <button class="admin-btn" id="btn-csv-import">Import CSV</button>
+          <span class="admin-muted" id="csv-status" style="margin-left:auto;"></span>
+        </div>
+        <div class="admin-muted" style="margin-top:10px;line-height:1.6;">
+          Required columns: <code>name</code>, <code>location</code>, <code>description</code>.<br/>
+          Optional: <code>phone</code>, <code>email</code>, <code>website</code>, <code>maps_url</code>, <code>image_url</code>, <code>submitted_by</code>, <code>status</code>.
+        </div>
+        <div class="admin-muted" style="margin-top:8px;line-height:1.6;">Alternative: Supabase Dashboard → Table Editor → <code>sites</code> → Import data (CSV).</div>
+      </div>
+
+      <div class="sites-grid" id="pending-grid"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

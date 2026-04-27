@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vestiga — Discover Heritage</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Global background slideshow (images to be uploaded later) -->
+<div class="bg-slideshow" id="bg-slideshow" aria-hidden="true">
+  <div class="bg-slide is-active" data-src="assets/backgrounds/background-image-1.webp"></div>
+  <div class="bg-slide" data-src="assets/backgrounds/background-image-2.jpg"></div>
+  <div class="bg-slide" data-src="assets/backgrounds/background-image-3.jpg"></div>
+</div>
+
+<nav id="main-nav">
+  <div class="nav-logo">
+    <img src="https://i.imgur.com/placeholder.png" id="nav-logo-img" alt="Vestiga" onerror="this.style.display='none'"/>
+    <span class="sr-only">Vestiga</span>
+  </div>
+  <div class="nav-links">
+    <a href="#sites">Sites</a>
+    <a href="#pledge">Pledge</a>
+    <span id="nav-user" style="font-size:12px;color:rgba(251,247,240,0.5);"></span>
+    <button class="nav-auth-btn" id="nav-auth-btn" onclick="openAuthModal()">Sign In</button>
+    <button class="nav-add" id="nav-add-btn" onclick="tryAddSite()" style="display:none">+ Add Site</button>
+  </div>
+</nav>
+
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Heritage Discovery Platform</div>
+    <h1 class="hero-title">Every site<br>has a story.</h1>
+    <p class="hero-sub">Vestiga is where communities discover, share, rate, and protect heritage sites across the world — one place at a time.</p>
+
+    <!-- "Story" main image (driven by the most recent uploaded site image when available) -->
+    <figure class="story-media" aria-label="Featured site image">
+      <img id="story-main-img" class="story-media-img" alt="" loading="eager" decoding="async" />
+      <figcaption class="story-media-cap" id="story-main-cap"></figcaption>
+    </figure>
+
+    <div class="hero-btns">
+      <a href="#sites" class="btn-primary">Explore Sites</a>
+      <button class="btn-ghost" onclick="tryAddSite()">Add a Site</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-num" id="stat-sites">—</span><span class="hstat-lbl">sites listed</span></div>
+      <div class="hstat"><span class="hstat-num" id="stat-pledges">—</span><span class="hstat-lbl">pledges made</span></div>
+      <div class="hstat"><span class="hstat-num" id="stat-ratings">—</span><span class="hstat-lbl">ratings given</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background:var(--dust);">
+  <div class="section-tag">How it works</div>
+  <h2 class="section-title">Simple.<br>Community-driven.</h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Create a free account</h4><p>Sign up with your email. Only registered users can submit sites — this keeps quality high.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Submit a heritage site</h4><p>Add any fort, temple, ruin, or historic building. Our team reviews every submission before it goes live.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Others discover and rate it</h4><p>Approved sites appear in the directory. Visitors can rate their experience and leave a written review.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Take the conservation pledge</h4><p>Pledge to protect heritage — by not littering, spreading awareness, or donating to restoration.</p></div></div>
+  </div>
+</section>
+
+<section id="sites">
+  <div class="section-tag">Heritage Directory</div>
+  <h2 class="section-title" style="margin-bottom:1.25rem;">Community Sites</h2>
+  <input class="search-input" type="text" id="search-input" placeholder="Search by name or location..." oninput="filterSites()"/>
+  <div class="sites-grid" id="sites-grid"><div style="font-size:14px;color:var(--ash);padding:1rem 0;">Loading sites...</div></div>
+  <div class="add-cta" onclick="tryAddSite()">
+    <span style="font-size:2rem;color:var(--sand);line-height:1;">+</span>
+    Know a heritage site not listed here? Add it.
+  </div>
+</section>
+
+<section id="pledge" style="background:var(--stone);color:var(--white);">
+  <div class="section-tag" style="color:var(--sand);">Conservation Pledge</div>
+  <h2 class="section-title" style="color:var(--white);margin-bottom:1rem;">Make your<br>mark.</h2>
+  <p class="pledge-sub">Heritage belongs to everyone. Take 30 seconds to commit to protecting it.</p>
+  <div class="pledge-count" id="pledge-count">—</div>
+  <div class="pledge-count-lbl">people have pledged</div>
+  <div class="pledge-form">
+    <input class="dark-input" type="text" id="p-name" placeholder="Your name" maxlength="40"/>
+    <select class="dark-select" id="p-pledge">
+      <option value="" disabled selected>Choose your pledge...</option>
+      <option value="I will never litter at heritage sites">I will never litter at heritage sites</option>
+      <option value="I will tell 3 people about a heritage site this week">I will tell 3 people about a heritage site this week</option>
+      <option value="I will donate to a heritage restoration fund">I will donate to a heritage restoration fund</option>
+      <option value="I will visit a heritage site I have never been to">I will visit a heritage site I have never been to</option>
+    </select>
+    <button class="pledge-btn" id="p-btn" onclick="submitPledge()">Leave My Mark</button>
+    <div class="pledge-ok" id="p-ok">✓ Your pledge has been recorded. Thank you.</div>
+  </div>
+  <div class="wall-lbl">Recent pledges</div>
+  <div class="pledge-wall" id="pledge-wall"><div style="font-size:13px;color:rgba(251,247,240,0.3);padding:.5rem 0;">Loading...</div></div>
+  <div class="donate-strip">
+    <div class="donate-txt"><h4>Support heritage restoration</h4><p>Every rupee goes directly to archaeological restoration funds for listed sites.</p></div>
+    <button class="upi-btn" onclick="alert('UPI ID: vestiga@upi\n\nThank you for supporting heritage.')">Donate ₹50</button>
+  </div>
+</section>
+
+<footer><p>Made with care by <span>Vestiga</span> · Revive the past. Protect the future.</p></footer>
+
+<!-- DEBUG (enable with ?debug=1) -->
+<details id="debug-panel" style="display:none;max-width:980px;margin:0 auto 3rem;padding:0 1.5rem;">
+  <summary style="cursor:pointer;font-size:13px;color:var(--ash);">Debug panel</summary>
+  <pre id="debug-log" style="white-space:pre-wrap;word-break:break-word;margin-top:10px;padding:12px;border:1px solid rgba(44,36,22,0.14);border-radius:12px;background:rgba(44,36,22,0.03);font-size:12px;color:var(--stone);line-height:1.5;"></pre>
+</details>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <h2 class="modal-title">Welcome to Vestiga</h2>
+    <p class="modal-sub">Sign in or create a free account to add heritage sites.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+      <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+    <div class="auth-err" id="auth-err"></div>
+    <div class="fg"><label class="fl">Email</label><input class="fi" id="auth-email" type="email" placeholder="you@email.com"/></div>
+    <div class="fg"><label class="fl">Password</label><input class="fi" id="auth-pass" type="password" placeholder="••••••••"/></div>
+    <div class="fg" id="auth-name-wrap" style="display:none"><label class="fl">Your name</label><input class="fi" id="auth-name" type="text" placeholder="How should we call you?" maxlength="40"/></div>
+    <button class="modal-btn" id="auth-btn" onclick="doAuth()">Sign In</button>
+    <div id="auth-success" style="display:none;text-align:center;padding:1.5rem 0;">
+      <div style="font-size:2rem;margin-bottom:.75rem;">✅</div>
+      <div style="font-size:14px;color:var(--ash);">Check your email to confirm your account, then sign in.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SITE MODAL -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAddModal()">✕</button>
+    <div id="modal-form">
+      <h2 class="modal-title">Add a Heritage Site</h2>
+      <p class="modal-sub">Forts, temples, ruins, monuments — if it's a real heritage place, it belongs here. Every submission is reviewed before going live.</p>
+      <div class="dupe-warn" id="dupe-warn"></div>
+      <div class="fg"><label class="fl">Site name *</label><input class="fi" id="s-name" type="text" placeholder="e.g. Bidar Fort" maxlength="80" oninput="checkDupe()"/></div>
+      <div class="fg"><label class="fl">Location *</label><input class="fi" id="s-loc" type="text" placeholder="e.g. Bidar, Karnataka, India" maxlength="120" oninput="checkDupe()"/></div>
+      <div class="fg"><label class="fl">About this site *</label><textarea class="fta" id="s-desc" placeholder="Describe the history, significance, and what makes this place special. Be specific — this helps our moderators verify it's a real heritage site."></textarea></div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Phone</label><input class="fi" id="s-phone" type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+        <div class="fg"><label class="fl">Email</label><input class="fi" id="s-email" type="email" placeholder="contact@..."/></div>
+      </div>
+      <div class="fg"><label class="fl">Website</label><input class="fi" id="s-web" type="url" placeholder="https://..."/></div>
+      <div class="fg"><label class="fl">Google Maps link</label><input class="fi" id="s-maps" type="url" placeholder="https://maps.google.com/?q=..."/></div>
+      <div class="fg"><label class="fl">Photo URL (optional)</label><input class="fi" id="s-img" type="url" placeholder="https://..."/></div>
+      <div class="fg">
+        <label class="fl">Or upload a photo (optional)</label>
+        <input class="fi" id="s-img-file" type="file" accept="image/*"/>
+        <div class="img-preview" id="s-img-preview" style="display:none;margin-top:10px;">
+          <img id="s-img-preview-img" alt="Selected image preview" style="width:100%;max-height:220px;object-fit:cover;border-radius:12px;border:1px solid rgba(44,36,22,0.14);"/>
+          <div id="s-img-preview-meta" style="margin-top:8px;font-size:12px;color:var(--ash);"></div>
+        </div>
+        <div style="margin-top:6px;font-size:12px;color:var(--ash);line-height:1.5;">Images uploaded here go to Supabase Storage (requires a public bucket; see setup notes).</div>
+      </div>
+      <button class="modal-btn" id="modal-btn" onclick="submitSite()">Submit for Review</button>
+    </div>
+    <div class="modal-success" id="modal-success">
+      <div class="ico">⏳</div>
+      <h3>Submitted for review!</h3>
+      <p>Our team will verify this is a real heritage site and approve it within 24 hours. Thank you for contributing to Vestiga.</p>
+      <br>
+      <button class="btn-primary" onclick="closeAddModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="background.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
