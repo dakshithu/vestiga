@@ -177,3 +177,7 @@ section{padding:4rem 1.5rem;}
 footer{background:#1a1208;color:rgba(251,247,240,0.28);text-align:center;padding:1.5rem;font-size:12px;}
 footer span{color:var(--sand);}
 
+
+a#creator {
+    color: aqua;
+}
