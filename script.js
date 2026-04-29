@@ -682,8 +682,9 @@ function updateStoryMainImageFromData() {
 
 
 
-def donateButton(){
+function donateButton(){
   window.open("https://razorpay.me", "_blank");
+}
 
 // ── INIT ──
 applyLogo();
