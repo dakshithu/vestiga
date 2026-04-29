@@ -683,9 +683,7 @@ function updateStoryMainImageFromData() {
 
 
 def donateButton(){
-  window.open("https://razorpay.me/@vestiga1")
-}
-
+  window.open("https://razorpay.me", "_blank");
 
 // ── INIT ──
 applyLogo();
