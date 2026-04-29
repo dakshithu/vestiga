@@ -680,6 +680,13 @@ function updateStoryMainImageFromData() {
         : 'Featured community site'));
 }
 
+
+
+def donateButton(){
+  window.open("https://razorpay.me/@vestiga1")
+}
+
+
 // ── INIT ──
 applyLogo();
 initAuth();
