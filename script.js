@@ -683,7 +683,7 @@ function updateStoryMainImageFromData() {
 
 
 function donateButton(){
-  window.open("https://razorpay.me", "_blank");
+  window.open("https://razorpay.me/@vestiga1", "_blank");
 }
 // ── INIT ──
 applyLogo();
